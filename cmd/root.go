@@ -5,10 +5,7 @@ import (
 	"log"
 	"template/cmd/migration"
 	"template/config"
-	"template/db"
-	"template/internal/app"
-	"template/internal/repository"
-	"template/internal/usecase"
+	"template/constant"
 )
 
 func Start() {
@@ -19,7 +16,7 @@ func Start() {
 	// command allowed
 	cmds := []*cobra.Command{
 		{
-			Use:   "db:migrate",
+			Use:   "adapter:migrate",
 			Short: "database migration",
 			Run: func(cmd *cobra.Command, args []string) {
 				migration.RunMigration(cfg)
@@ -29,16 +26,14 @@ func Start() {
 			Use:   "api",
 			Short: "run api server",
 			Run: func(cmd *cobra.Command, args []string) {
-				dbs, err := db.NewDatabase(cfg.DB)
-				if err != nil {
-					log.Fatal(err)
-				}
-
-				userRepo := repository.NewUserRepository(dbs)
-				transactionRepo := repository.NewTransactionRepository(dbs)
-				userUsecase := usecase.NewUserUsecase(userRepo, transactionRepo)
-				transactionUcase := usecase.NewTransactionsUsecase(transactionRepo, userRepo)
-				app.Run(userUsecase, transactionUcase)
+				config.InitService(cfg, constant.ServerRest)
+			},
+		},
+		{
+			Use:   "grpc",
+			Short: "run grpc server",
+			Run: func(cmd *cobra.Command, args []string) {
+				config.InitService(cfg, constant.ServerGRPC)
 			},
 		},
 	}
