@@ -1,4 +1,4 @@
-package app
+package api
 
 import (
 	"fmt"
@@ -80,6 +80,19 @@ func AdminMiddleware(next echo.HandlerFunc) echo.HandlerFunc {
 		}
 
 		// If the user is an admin, proceed to the next middleware or handler
+		return next(c)
+	}
+}
+
+func onlyJSONMiddleware(next echo.HandlerFunc) echo.HandlerFunc {
+	return func(c echo.Context) error {
+		contentType := c.Request().Header.Get("Content-Type")
+		switch {
+		case contentType != "application/json" && c.Request().Method == "POST":
+			return c.JSON(http.StatusUnsupportedMediaType, map[string]string{"error": "Only application/json content type is allowed"})
+		case contentType != "application/json" && c.Request().Method == "PUT":
+			return c.JSON(http.StatusUnsupportedMediaType, map[string]string{"error": "Only application/json content type is allowed"})
+		}
 		return next(c)
 	}
 }
