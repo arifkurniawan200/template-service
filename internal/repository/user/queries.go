@@ -1,4 +1,4 @@
-package repository
+package user
 
 const (
 	insertNewCostumer  = `INSERT INTO users(NIK, full_name, born_place, born_date,is_admin, email, password) VALUES (?, ?, ?, ?, ?, ?, ?)`

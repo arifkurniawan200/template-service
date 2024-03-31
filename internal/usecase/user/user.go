@@ -1,4 +1,4 @@
-package usecase
+package user
 
 import (
 	"github.com/labstack/echo/v4"
@@ -6,6 +6,7 @@ import (
 	"golang.org/x/sync/errgroup"
 	"template/internal/model"
 	"template/internal/repository"
+	"template/internal/usecase"
 	"template/internal/utils"
 )
 
@@ -18,7 +19,7 @@ const (
 	secret = "abc&1*~#^2^#s0^=)^^7%b34"
 )
 
-func NewUserUsecase(u repository.UserRepository, t repository.TransactionRepository) UserUcase {
+func NewUserUsecase(u repository.UserRepository, t repository.TransactionRepository) usecase.UserUcase {
 	return &UserHandler{u, t}
 }
 
