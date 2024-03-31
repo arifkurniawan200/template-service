@@ -1,4 +1,6 @@
+# use this for database connection
 db:
+  driver: postgres # support postgrest and mysql, change value to mysql or postgres
   host: localhost
   port: 3306
   name: kredit_system
@@ -7,3 +9,30 @@ db:
   active_pool: true
   max_pool: 30
   min_pool: 5
+
+# use this for caching configuration
+cache:
+  driver: redis # support memcache or redis
+  host: 127.0.0.1
+  port: 5327
+  user: arif
+  pass: strong
+
+# use this for api server configuration
+api:
+  port: 8080
+
+# use this fot grpc server configuration
+grpc:
+  port: 8081
+
+#use this for environment
+env:
+  secret_key: casfvdjhfdgovbgdfho
+  encrypt_key: jsghddfg
+
+# use this for connection with third party
+third-party:
+  user-service:
+    host: 127.0.0.1
+    port: 6679
